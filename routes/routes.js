@@ -40,8 +40,8 @@ router.post(
                 first_name: user.first_name,
                 last_name: user.last_name
               };
-              
-              const token = jwt.sign({ user: body }, 'TOP_SECRET');
+
+              const token = jwt.sign({ user: body }, process.env.TOKEN_SECRET);
 
               return res.json({ token });
             }

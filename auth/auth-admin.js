@@ -84,7 +84,7 @@ const sequelize = new Sequelize(process.env.MYSQL_DB_NAME, process.env.MYSQL_DB_
     passport.use(
       new JWTstrategy(
         {
-          secretOrKey: 'TOP_SECRET',
+          secretOrKey: process.env.TOKEN_SECRET,
           jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
         },
         async (token, done) => {
