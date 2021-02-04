@@ -1,22 +1,10 @@
 require('dotenv').config();
 
 const express = require('express');
-const mongoose = require('mongoose');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 
-const UserModel = require('./model/model');
-
-mongoose.connect(process.env.MONGO_DB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  authSource: "admin"
-});
-mongoose.set("useCreateIndex", true);
-mongoose.connection.on('error', error => console.log(error) );
-mongoose.Promise = global.Promise;
-
-require('./auth/auth');
+require('./auth/auth-admin');
 
 const routes = require('./routes/routes');
 const secureRoute = require('./routes/secure-routes');

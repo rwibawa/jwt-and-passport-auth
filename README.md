@@ -81,3 +81,10 @@ Response:
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYwMWE0NDk4MTI4Yjc1YWM1NjYwMzg1OCIsImVtYWlsIjoiZXhhbXBsZUBleGFtcGxlLmNvbSJ9LCJpYXQiOjE2MTIzMzQ3NjF9.ts5jDopjL8OQZN5U_cdMY6u8RPm6qJ6PMAryDDH4tBY"
 }
 ```
+
+## 4. Connect to MySQL
+```bash
+$ npm i -s sequelize@5.22.3 mysql2 sha.js
+$ vi model/admin.model.js
+$ vi app.js
+```
