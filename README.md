@@ -93,16 +93,7 @@ $ vi app.js
 ```bash
 curl -X POST \
   http://localhost:4000/login \
-  -H 'Accept: */*' \
-  -H 'Accept-Encoding: gzip, deflate' \
-  -H 'Cache-Control: no-cache' \
-  -H 'Connection: keep-alive' \
-  -H 'Content-Length: 34' \
   -H 'Content-Type: application/x-www-form-urlencoded' \
-  -H 'Cookie: JSESSIONID=3E485E575A1E52DA3EFD15AB6784FC58; _redisPractice=s%3AEHCwYGCXxqOJoT0DRgf5y4wwO1_QbzZ4.vlpNXK1MjNV3i96V%2BgHbxXymiDGJOsNiXuZT8flbeb0' \
-  -H 'Host: localhost:4000' \
-  -H 'User-Agent: PostmanRuntime/7.19.0' \
-  -H 'cache-control: no-cache' \
   -d 'username=FLinick&password=hello%23'
 ```
 
