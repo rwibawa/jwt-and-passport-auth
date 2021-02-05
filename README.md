@@ -91,7 +91,7 @@ $ vi app.js
 
 ### 4.1. Login
 ```bash
-curl -X POST \
+$ curl -X POST \
   http://localhost:4000/login \
   -H 'Content-Type: application/x-www-form-urlencoded' \
   -d 'username=FLinick&password=hello%23'
@@ -105,9 +105,11 @@ Response:
 ```
 
 ### 4.2. Get profile
+Put the token in the header as a bear token.
 ```bash
-curl -X GET \
-  'http://localhost:4000/user/profile?secret_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiRkxpbmljayIsImVtYWlsIjoiZ211cnVnYW5AZWhlaW50bC5jb20iLCJmaXJzdF9uYW1lIjoiRnJlZGVyaWNhIiwibGFzdF9uYW1lIjoiTGluaWNrIn0sImlhdCI6MTYxMjQyNDUwMH0.am2pe_kdVofbN3oTXBlDzpTqSoOD1Rxv4Ve1LMqvMPY'
+$ curl -X GET \
+  http://localhost:4000/user/profile \
+  -H 'Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiUUFBdXRvbWF0aW9uIiwiZW1haWwiOiJyd2liYXdhQGVoZS5oZWFsdGgiLCJmaXJzdF9uYW1lIjoiUUEiLCJsYXN0X25hbWUiOiJBdXRvbWF0aW9uIn0sImlhdCI6MTYxMjUwMzY1Nn0.0fqAsfm6Ubi4X-vdj9wRVOQ9327SL9dhiSCBaYahrdM' 
 ```
 
 Response:
@@ -115,18 +117,19 @@ Response:
 {
     "message": "You made it to the secure route",
     "user": {
-        "username": "FLinick",
-        "email": "gmurugan@eheintl.com",
-        "first_name": "Frederica",
-        "last_name": "Linick"
+        "username": "QAAutomation",
+        "email": "rwibawa@ehe.health",
+        "first_name": "QA",
+        "last_name": "Automation"
     },
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiRkxpbmljayIsImVtYWlsIjoiZ211cnVnYW5AZWhlaW50bC5jb20iLCJmaXJzdF9uYW1lIjoiRnJlZGVyaWNhIiwibGFzdF9uYW1lIjoiTGluaWNrIn0sImlhdCI6MTYxMjQyNDUwMH0.am2pe_kdVofbN3oTXBlDzpTqSoOD1Rxv4Ve1LMqvMPY"
+    "token": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiUUFBdXRvbWF0aW9uIiwiZW1haWwiOiJyd2liYXdhQGVoZS5oZWFsdGgiLCJmaXJzdF9uYW1lIjoiUUEiLCJsYXN0X25hbWUiOiJBdXRvbWF0aW9uIn0sImlhdCI6MTYxMjUwMzY1Nn0.0fqAsfm6Ubi4X-vdj9wRVOQ9327SL9dhiSCBaYahrdM"
 }
 ```
 
+### 4.3. Get Patient Profile
 #### EPMS Calls
 ```bash
-curl -X GET \
+$ curl -X GET \
   'http://localhost:8080/api/patient?employeeId=297-02-1974&clientId=41221'
 ```
 
@@ -137,5 +140,20 @@ Response:
         "epmsPID": 872275,
         "uuid": "b1d6cb0e-03dd-11e9-9091-0aeb2681e1ac"
     }
+}
+```
+
+#### get_patient
+```bash
+$ curl -X GET \
+  'http://localhost:4000/patient?employeeId=297-02-1974&clientId=41221' \
+  -H 'Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiUUFBdXRvbWF0aW9uIiwiZW1haWwiOiJyd2liYXdhQGVoZS5oZWFsdGgiLCJmaXJzdF9uYW1lIjoiUUEiLCJsYXN0X25hbWUiOiJBdXRvbWF0aW9uIn0sImlhdCI6MTYxMjUwMzY1Nn0.0fqAsfm6Ubi4X-vdj9wRVOQ9327SL9dhiSCBaYahrdM'
+```
+
+Response:
+```json
+{
+    "epmsPID": 872275,
+    "uuid": "b1d6cb0e-03dd-11e9-9091-0aeb2681e1ac"
 }
 ```

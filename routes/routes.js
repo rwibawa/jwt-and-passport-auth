@@ -24,8 +24,12 @@ router.post(
       'login',
       async (err, user, info) => {
         try {
-          if (err || !user) {
+          if (err) {
             return next(err);
+          }
+
+          if (!user) {
+            return res.json({ error: info.message });
           }
 
           req.login(

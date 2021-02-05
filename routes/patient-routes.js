@@ -5,7 +5,12 @@ const axios = require('axios');
 router.get(
   '/',
   (req, res, next) => {
-    axios.get('http://localhost:8080/api/patient?employeeId=297-02-1974&clientId=41221')
+    axios.get('http://localhost:8080/api/patient', {
+      params: {
+        employeeId: req.query.employeeId,
+        clientId: req.query.clientId
+      }
+    })
     .then(response => {
       res.json(response.data.data);
       next();

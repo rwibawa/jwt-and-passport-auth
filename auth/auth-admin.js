@@ -22,16 +22,24 @@ const sequelize = new Sequelize(process.env.MYSQL_DB_NAME, process.env.MYSQL_DB_
   }
 });
 
+const db = {
+  Sequelize: Sequelize,
+  sequelize: sequelize
+};
+
 (async () => {
   try {
-    await sequelize.authenticate();
+    await db.sequelize.authenticate();
     console.log('Connection to MySQL has been established successfully.');
 
-    const Admin = require('../model/admin.model')(sequelize, Sequelize);
+    const Admin = require('../model/admin.model')(db.sequelize, db.Sequelize);
     await Admin.sync();
 
+    db.Admin = Admin;
+
     /*
-    const users = await Admin.findAll({
+    // Connection Test
+    const users = await db.Admin.findAll({
       where: {
         username: 'FLinick'
       }
@@ -47,60 +55,60 @@ const sequelize = new Sequelize(process.env.MYSQL_DB_NAME, process.env.MYSQL_DB_
     const hash = shajs('sha256').update('hello#' + user.salt).digest('hex');
     console.log('hashed password', hash);
     */
-
-    passport.use(
-      'login',
-      new localStrategy(
-        {
-          usernameField: 'username',
-          passwordField: 'password'
-        },
-        async (username, password, done) => {
-          try {
-            const user = await Admin.findOne({
-              where: {
-                username: username
-              }
-            });
-    
-            if (!user) {
-              return done(null, false, { message: 'User not found' });
-            }
-    
-            const hash = shajs('sha256').update(password + user.salt).digest('hex');
-            if (hash !== user.password) {
-              return done('router', null, { message: 'Wrong Password' });
-            }
-    
-            return done(null, user, { message: 'Logged in Successfully' });
-          } catch (error) {
-            console.error(error);
-            return done(error);
-          }
-        }
-      )
-    );
-    
-    passport.use(
-      new JWTstrategy(
-        {
-          secretOrKey: process.env.TOKEN_SECRET,
-          jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
-        },
-        async (token, done) => {
-          try {
-            return done(null, token.user);
-          } catch (error) {
-            done(error);
-          }
-        }
-      )
-    );
   
   } catch (error) {
     console.error('Unable to connect to the MySQL database:', error);
   }
 })();
+    
+passport.use(
+  new JWTstrategy(
+    {
+      secretOrKey: process.env.TOKEN_SECRET,
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken()
+    },
+    async (token, done) => {
+      try {
+        return done(null, token.user);
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
+);
+
+passport.use(
+  'login',
+  new localStrategy(
+    {
+      usernameField: 'username',
+      passwordField: 'password'
+    },
+    async (username, password, done) => {
+      try {
+        const user = await db.Admin.findOne({
+          where: {
+            username: username
+          }
+        });
+
+        if (!user) {
+          return done(null, false, { message: 'User not found' });
+        }
+
+        const hash = shajs('sha256').update(password + user.salt).digest('hex');
+        if (hash !== user.password) {
+          return done(null, false, { message: 'Wrong Password' });
+        }
+
+        return done(null, user, { message: 'Logged in Successfully' });
+      } catch (error) {
+        console.error(error);
+        return done(error);
+      }
+    }
+  )
+);
 
 /*
 passport.use(
