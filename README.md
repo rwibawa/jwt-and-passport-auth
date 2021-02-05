@@ -84,7 +84,7 @@ Response:
 
 ## 4. Connect to MySQL
 ```bash
-$ npm i -s sequelize@5.22.3 mysql2 sha.js
+$ npm i -s sequelize@5.22.3 mysql2 sha.js axios nodemon
 $ vi model/admin.model.js
 $ vi app.js
 ```
@@ -121,5 +121,21 @@ Response:
         "last_name": "Linick"
     },
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiRkxpbmljayIsImVtYWlsIjoiZ211cnVnYW5AZWhlaW50bC5jb20iLCJmaXJzdF9uYW1lIjoiRnJlZGVyaWNhIiwibGFzdF9uYW1lIjoiTGluaWNrIn0sImlhdCI6MTYxMjQyNDUwMH0.am2pe_kdVofbN3oTXBlDzpTqSoOD1Rxv4Ve1LMqvMPY"
+}
+```
+
+#### EPMS Calls
+```bash
+curl -X GET \
+  'http://localhost:8080/api/patient?employeeId=297-02-1974&clientId=41221'
+```
+
+Response:
+```json
+{
+    "data": {
+        "epmsPID": 872275,
+        "uuid": "b1d6cb0e-03dd-11e9-9091-0aeb2681e1ac"
+    }
 }
 ```
